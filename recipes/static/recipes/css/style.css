@@ -163,6 +163,7 @@ h6 {
     max-width: 64rem;
 }
 
+
 .recipe-list-item:hover {
     transform: scale(1.02);
     box-shadow: -10px 10px 20px rgba(0, 0, 0, .4);
@@ -247,4 +248,14 @@ h6 {
 
 .main-footer a:hover {
     filter: brightness(.7);
+}
+
+.main-content-detail .recipe-list-item {
+    max-width: 84rem;
+    margin: 0 auto;
+}
+
+.main-content-detail .recipe-list-item:hover {
+    transform: scale(1);
+    box-shadow: -5px 5px 15px rgba(0,0,0,0.2);
 }
