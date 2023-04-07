@@ -3,17 +3,8 @@
 {% block tittle %}Home{% endblock tittle %}
 {% block content %}
 <div class="main-content main-content-list container">
-    {% include 'recipes/partials/recipe.html' %}
-    {% include 'recipes/partials/recipe.html' %}
-    {% include 'recipes/partials/recipe.html' %}
-    {% include 'recipes/partials/recipe.html' %}
-    {% include 'recipes/partials/recipe.html' %}
-    {% include 'recipes/partials/recipe.html' %}
-    {% include 'recipes/partials/recipe.html' %}
-    {% include 'recipes/partials/recipe.html' %}
-    {% include 'recipes/partials/recipe.html' %}
-    {% include 'recipes/partials/recipe.html' %}
-    {% include 'recipes/partials/recipe.html' %}
-    {% include 'recipes/partials/recipe.html' %}
+    {% for recipe_generator in recipes  %}
+        {% include 'recipes/partials/recipe.html' %}
+    {% endfor %}
 </div>
 {% endblock content %}
