@@ -20,6 +20,8 @@ def category(request, category_id):
         'is_home_page': True,
     })
 
+# verificar bug em 32 <a href="{% url 'recipes:category' recipe.category.id %}"> aula 59
+
 
 def recipe(request, id):
     return render(request, 'recipes/pages/recipe-view.html', context={
