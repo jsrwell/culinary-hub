@@ -15,3 +15,18 @@ class RecipeViewsTest(TestCase):
     def test_recipe_details_view_function_is_correct(self):
         view = resolve(reverse('recipes:recipe', kwargs={'id': 1}))
         self.assertIs(view.func, views.recipe)
+
+    def test_recipe_home_view_returns_status_code_200_OK(self):
+        response = self.client.get(reverse('recipes:home'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_recipe_home_view_returns_correct_template(self):
+        template = self.client.get(reverse('recipes:home'))
+        self.assertTemplateUsed(template, "recipes/pages/home.html")
+
+    def test_recipe_home_template_shows_no_recipes_found_if_no_recipes(self):
+        content = self.client.get(reverse('recipes:home'))
+        self.assertIn(
+            "Recipes not found",
+            content.content.decode('utf-8'),
+        )
