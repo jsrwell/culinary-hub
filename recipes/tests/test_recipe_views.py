@@ -4,6 +4,8 @@ from recipes import views
 
 
 class RecipeViewsTest(RecipeTestBase):
+
+    # HOME tests ///////////////////////////////////////////////////////
     def test_recipe_home_view_function_is_correct(self):
         view = resolve(reverse('recipes:home'))
         self.assertIs(view.func, views.home)
@@ -32,20 +34,50 @@ class RecipeViewsTest(RecipeTestBase):
         self.assertIn("Recipe Title Test", content)
         self.assertEqual(len(response_context_recipes), 1)
 
+    # CATEGORY Tests ////////////////////////////////////////////////////////
     def test_recipe_category_view_function_is_correct(self):
         view = resolve(reverse('recipes:category', kwargs={'category_id': 1}))
         self.assertIs(view.func, views.category)
+
+    def test_recipe_category_view_returns_status_code_200_OK(self):
+        self.make_recipe()
+        response = self.client.get(
+            reverse('recipes:category', kwargs={'category_id': 1}))
+        self.assertEqual(response.status_code, 200)
 
     def test_recipe_category_view_returns_404_if_no_recipes_found(self):
         response = self.client.get(
             reverse('recipes:category', kwargs={'category_id': 9999}))
         self.assertEqual(response.status_code, 404)
 
+    def test_recipe_category_template_loads_recipes(self):
+        title_test = "This is a category test"
+        self.make_recipe(title=title_test)
+        response = self.client.get(
+            reverse('recipes:category', args=(1,)))
+        content = response.content.decode('utf-8')
+        self.assertIn(title_test, content)
+
+    # DETAILS Tests ///////////////////////////////////////////////////////
     def test_recipe_details_view_function_is_correct(self):
         view = resolve(reverse('recipes:recipe', kwargs={'id': 1}))
         self.assertIs(view.func, views.recipe)
+
+    def test_recipe_recipe_view_returns_status_code_200_OK(self):
+        self.make_recipe()
+        response = self.client.get(
+            reverse('recipes:recipe', kwargs={'id': 1}))
+        self.assertEqual(response.status_code, 200)
 
     def test_recipe_details_view_returns_404_if_no_recipes_found(self):
         response = self.client.get(
             reverse('recipes:recipe', kwargs={'id': 9999}))
         self.assertEqual(response.status_code, 404)
+
+    def test_recipe_details_template_loads_recipes(self):
+        title_test = "This is a recipe test"
+        self.make_recipe(title=title_test)
+        response = self.client.get(
+            reverse('recipes:recipe', args=(1,)))
+        content = response.content.decode('utf-8')
+        self.assertIn(title_test, content)
