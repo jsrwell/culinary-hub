@@ -25,8 +25,18 @@ class RecipeViewsTest(RecipeTestBase):
             content.content.decode('utf-8'),
         )
 
+    def test_recipe_home_template_not_loads_recipes_not_published(self):
+        self.make_recipe(is_published=False)
+        """Test if the recipes with is_published=False is not loaded"""
+        # Need a recipe for this test
+        response = self.client.get(reverse('recipes:home'))
+        content = response.content.decode('utf-8')
+        # Check if the the return in the page is recipes not found
+        self.assertIn("Recipes not found", content)
+
     def test_recipe_home_template_loads_recipes(self):
         self.make_recipe()
+        # Need a recipe for this test
         response = self.client.get(reverse('recipes:home'))
         content = response.content.decode('utf-8')
         response_context_recipes = response.context['recipes']
@@ -41,6 +51,7 @@ class RecipeViewsTest(RecipeTestBase):
 
     def test_recipe_category_view_returns_status_code_200_OK(self):
         self.make_recipe()
+        # Need a recipe for this test
         response = self.client.get(
             reverse('recipes:category', kwargs={'category_id': 1}))
         self.assertEqual(response.status_code, 200)
@@ -53,6 +64,7 @@ class RecipeViewsTest(RecipeTestBase):
     def test_recipe_category_template_loads_recipes(self):
         title_test = "This is a category test"
         self.make_recipe(title=title_test)
+        # Need a recipe for this test
         response = self.client.get(
             reverse('recipes:category', args=(1,)))
         content = response.content.decode('utf-8')
@@ -65,6 +77,7 @@ class RecipeViewsTest(RecipeTestBase):
 
     def test_recipe_recipe_view_returns_status_code_200_OK(self):
         self.make_recipe()
+        # Need a recipe for this test
         response = self.client.get(
             reverse('recipes:recipe', kwargs={'id': 1}))
         self.assertEqual(response.status_code, 200)
@@ -77,6 +90,7 @@ class RecipeViewsTest(RecipeTestBase):
     def test_recipe_details_template_loads_recipes(self):
         title_test = "This is a recipe test"
         self.make_recipe(title=title_test)
+        # Need a recipe for this test
         response = self.client.get(
             reverse('recipes:recipe', args=(1,)))
         content = response.content.decode('utf-8')
