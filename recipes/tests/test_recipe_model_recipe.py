@@ -1,4 +1,4 @@
-from .test_recipe_base import RecipeTestBase
+from .test_recipe_base import RecipeTestBase, Recipe
 from django.core.exceptions import ValidationError
 from parameterized import parameterized
 
@@ -7,6 +7,23 @@ class RecipeModelTest(RecipeTestBase):
     def setUp(self) -> None:
         self.recipe = self.make_recipe()
         return super().setUp()
+
+    def make_recipe_with_defaults(self):
+        recipe = Recipe(
+            category=self.make_category(name='Test Default Category'),
+            author=self.make_author(username='newuser'),
+            title='Recipe Title Default',
+            description='Recipe Description Default',
+            slug='recipe-slug-Default',
+            preparation_time=10,
+            preparation_time_unit='Minutos Default',
+            servings=5,
+            servings_unit='Porções Default',
+            preparation_steps='Recipe Preparation Steps Default',
+        )
+        recipe.full_clean()
+        recipe.save()
+        return recipe
 
     # title = models.CharField(max_length=65)
     # description = models.CharField(max_length=165)
@@ -23,6 +40,20 @@ class RecipeModelTest(RecipeTestBase):
         with self.assertRaises(ValidationError):
             self.recipe.full_clean()
 
+    # preparation_steps_is_html = models.BooleanField(default=False)
+    def test_recipe_preparation_steps_is_html_is_false_by_default(self):
+        recipe = self.make_recipe_with_defaults()
+        self.assertFalse(recipe.preparation_steps_is_html,
+                         msg='Recipe preparation_status_is_html is not False'
+                         )
+
+    # is_published = models.BooleanField(default=False)
+    def test_recipe_is_published_is_false_by_default(self):
+        recipe = self.make_recipe_with_defaults()
+        self.assertFalse(recipe.is_published,
+                         msg='Recipe is_published is not False'
+                         )
+
     # slug = models.SlugField()
 
     # preparation_time = models.IntegerField()
@@ -30,11 +61,3 @@ class RecipeModelTest(RecipeTestBase):
     # servings = models.IntegerField()
 
     # preparation_steps = models.TextField()
-
-    # preparation_steps_is_html = models.BooleanField(default=False)
-
-    # created_at = models.DateTimeField(auto_now_add=True)
-
-    # updated_at = models.DateTimeField(auto_now=True)
-
-    # is_published = models.BooleanField(default=False)
