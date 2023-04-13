@@ -61,3 +61,12 @@ class RecipeModelTest(RecipeTestBase):
     # servings = models.IntegerField()
 
     # preparation_steps = models.TextField()
+
+    # Class Recipe def __str__(self):
+    def test_recipe_string_representation(self):
+        testword = 'Testing Representation'
+        self.recipe.title = testword
+        self.recipe.full_clean()
+        self.recipe.save()
+        self.assertEqual(str(self.recipe), testword,
+                         msg=f'Recipe string must be "{testword}"')
