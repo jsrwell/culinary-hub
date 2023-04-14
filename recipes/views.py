@@ -31,3 +31,7 @@ def recipe(request, id):
     return render(request, 'recipes/pages/recipe-view.html', context={
         'recipe': recipe,
     })
+
+
+def search(request):
+    ...
