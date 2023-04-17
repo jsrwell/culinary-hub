@@ -3,6 +3,7 @@ from django.http import Http404
 from django.shortcuts import render, get_list_or_404, get_object_or_404
 from .models import Recipe
 from django.core.paginator import Paginator
+from utils.pagination import make_pagination_range
 
 
 def home(request):
@@ -13,8 +14,16 @@ def home(request):
     current_page = request.GET.get('page', 1)
     paginator = Paginator(recipes, 9)
     page_obj = paginator.get_page(current_page)
+
+    pagination_range = make_pagination_range(
+        paginator.page_range,
+        6,
+        current_page,
+    )
+
     return render(request, 'recipes/pages/home.html', context={
         'recipes': page_obj,
+        'pagination_range': pagination_range,
         'is_home_page': True,
     })
 
