@@ -287,21 +287,23 @@ h6 {
     display: flex;
     flex-flow: row wrap;
     gap: 1rem 0.5rem;
+    align-items: center;
+    justify-content: center;
 }
 
 .pagination .page-item{
     background: var(--color-gray-2);
+    text-decoration: none;
     padding: 0.5rem 1rem;
+    border-radius: .4rem;
 }
 
 .pagination .page-link{
-    text-decoration: none;
     background: var(--color-primary);
     color: var(--color-white);
 }
 
 .pagination .page-current{
-    text-decoration: none;
     background: var(--color-primary-dark);
     color: var(--color-white);
 }
