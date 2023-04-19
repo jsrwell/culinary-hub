@@ -313,3 +313,45 @@ h6 {
 .center {
     text-align: center;
 }
+
+/* Messages */
+.message {
+    padding: 1rem;
+    border-radius: .4rem;
+    margin-bottom: 0.6rem;
+    border: 1px solid var(--color-dark-text);
+    background: var(--color-gray-2);
+    color: var(--color-dark-text);
+}
+
+.message-debug {
+    border: 1px solid var(--color-debug-dark);
+    background: var(--color-debug-light);
+    color: var(--color-debug-dark);
+}
+.message-error {
+    border: 1px solid var(--color-error-dark);
+    background: var(--color-error-light);
+    color: var(--color-error-dark);
+}
+.message-info {
+    border: 1px solid var(--color-info-dark);
+    background: var(--color-info-light);
+    color: var(--color-info-dark);
+}
+.message-success {
+    border: 1px solid var(--color-success-dark);
+    background: var(--color-success-light);
+    color: var(--color-success-dark);
+}
+.message-warning {
+    border: 1px solid var(--color-warning-dark);
+    background: var(--color-warning-light);
+    color: var(--color-warning-dark);
+}
+
+@media (max-width: 600px) {
+    .main-content-list {
+        grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+    }
+}
