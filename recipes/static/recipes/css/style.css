@@ -330,12 +330,14 @@ h6 {
     list-style-type: none;
 }
 
-.errorlist {
-    color: var(--color-error-dark);
+.form-content .help-text {
+    margin: 0.2rem;
+    font-size: 1rem;
+    font-style: italic;
 }
 
-.form-content .help-text {
-    margin: 0;
+.errorlist {
+    color: var(--color-error-dark);
 }
 
 .form-content input {
