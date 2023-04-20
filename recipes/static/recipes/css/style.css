@@ -38,6 +38,7 @@
     --font-primary: sans-serif;
     --font-headings: 'Roboto Slab', serif;
 
+    --spacing-gutter-small: 1.5rem;
     --spacing-gutter-medium: 3rem;
     --spacing-gutter-large: 4rem;
 }
@@ -314,6 +315,50 @@ h6 {
     text-align: center;
 }
 
+/* Forms */
+
+.form-content {
+    max-width: 64rem;
+    margin: 0 auto;
+    margin-bottom: var(--spacing-gutter-medium);
+}
+
+.form-content label, .form-content .help-text, .errorlist {
+    display: block;
+    margin: .5rem 0;
+    font-size: 1.4rem;
+    list-style-type: none;
+}
+
+.errorlist {
+    color: var(--color-error-dark);
+}
+
+.form-content .help-text {
+    margin: 0;
+}
+
+.form-content input {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 0.4rem;
+    border: 1px solid var(--color-primary-dark);
+}
+
+.form-content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+    gap: var(--spacing-gutter-small) var(--spacing-gutter-medium);
+}
+
+.form-content button {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 0.4rem;
+    background: var(--color-primary-dark);
+    color: var(--color-white);
+}
+
 /* Messages */
 .message {
     padding: 1rem;
@@ -351,7 +396,7 @@ h6 {
 }
 
 @media (max-width: 600px) {
-    .main-content-list {
+    .main-content-list, .form-content-grid {
         grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
     }
 }
