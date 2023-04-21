@@ -4,9 +4,8 @@ from django.http import Http404
 
 
 def register_view(request):
-    request.session['number'] = request.session.get('number') or 1
-    request.session['number'] += 1
-    form = RegisterForm()
+    register_form_data = request.session.get('register_form_data', None)
+    form = RegisterForm(register_form_data)
     return render(request, 'authors/pages/register_view.html', {
         'form': form,
     })

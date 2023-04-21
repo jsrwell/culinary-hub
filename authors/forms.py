@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 
 def add_attr(field, attr_name, attr_new_val):
@@ -19,6 +20,19 @@ class RegisterForm(forms.ModelForm):
         add_placeholder(self.fields['username'], 'Ex.: yourusername0945')
         add_placeholder(self.fields['email'], 'Ex.: youremail@typed.here')
         add_placeholder(self.fields['password'], 'Type your password here')
+
+    password = forms.CharField(
+        required=True,
+        widget=forms.PasswordInput(),
+        error_messages={
+            'required': 'Password must not be empty'
+        },
+        help_text=(
+            'Password must have at least one uppercase letter, '
+            'one lowercase letter and one number. The length should be '
+            'at least 8 characters.'
+        )
+    )
 
     password2 = forms.CharField(
         required=True,
@@ -49,6 +63,22 @@ class RegisterForm(forms.ModelForm):
             'password': 'Password:',
         }
 
+        error_messages = {
+            'username': {
+                'required': 'This field must not be empty',
+            }
+        }
+
         widgets = {
             'password': forms.PasswordInput(),
         }
+
+    def clean_first_name(self):
+        data = self.cleaned_data.get('first_name')
+        if 'Teste' in data:
+            raise ValidationError(
+                'O nome %(inv)s é invalido!',
+                code='invalid',
+                params={'inv': '"Teste"'},
+            )
+        return data
