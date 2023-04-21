@@ -77,8 +77,18 @@ class RegisterForm(forms.ModelForm):
         data = self.cleaned_data.get('first_name')
         if 'Teste' in data:
             raise ValidationError(
-                'O nome %(inv)s é invalido!',
+                'The name %(inv)s is invalid!',
                 code='invalid',
                 params={'inv': '"Teste"'},
             )
         return data
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get('password')
+        password2 = cleaned_data.get('password2')
+        if password != password2:
+            raise ValidationError({
+                'password': 'The password dont match with the confirmation!',
+                'password2': 'The confirmation password dont match!',
+            })
