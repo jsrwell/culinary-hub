@@ -28,11 +28,20 @@ def strong_password(password):
 class RegisterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        add_placeholder(self.fields['first_name'], 'Ex.: Well')
-        add_placeholder(self.fields['last_name'], 'Ex.: Jackson')
-        add_placeholder(self.fields['username'], 'Ex.: yourusername0945')
-        add_placeholder(self.fields['email'], 'Ex.: youremail@typed.here')
-        add_placeholder(self.fields['password'], 'Type your password here')
+        # fields variebles
+        f_first_name = self.fields['first_name']
+        f_last_name = self.fields['last_name']
+        f_username = self.fields['username']
+        f_email = self.fields['email']
+        f_password = self.fields['password']
+        f_password2 = self.fields['password2']
+        # placeholders input
+        add_placeholder(f_first_name, 'Ex.: Well')
+        add_placeholder(f_last_name, 'Ex.: Jackson')
+        add_placeholder(f_username, 'Ex.: yourusername0945')
+        add_placeholder(f_email, 'Ex.: youremail@typed.here')
+        add_placeholder(f_password, 'Type your password here')
+        add_placeholder(f_password2, 'The password must be the same')
 
     password = forms.CharField(
         required=True,
@@ -50,9 +59,7 @@ class RegisterForm(forms.ModelForm):
 
     password2 = forms.CharField(
         required=True,
-        widget=forms.PasswordInput({
-            "placeholder": "Your password must be the same"
-        }),
+        widget=forms.PasswordInput(),
         label='Confirm your password:',
         error_messages={
             'required': "The password don't match"
@@ -81,10 +88,6 @@ class RegisterForm(forms.ModelForm):
             'username': {
                 'required': 'This field must not be empty',
             }
-        }
-
-        widgets = {
-            'password': forms.PasswordInput(),
         }
 
     def clean_first_name(self):
