@@ -12,6 +12,8 @@ def add_attr(field, attr_name, attr_new_val):
 def add_placeholder(field, placeholder_val):
     add_attr(field, 'placeholder', placeholder_val)
 
+# função validadora de senha forte
+
 
 def strong_password(password):
     regex = re.compile(r'^(?=.[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$')
@@ -43,9 +45,11 @@ class RegisterForm(forms.ModelForm):
         add_placeholder(f_password, 'Type your password here')
         add_placeholder(f_password2, 'The password must be the same')
 
+    # rewrite the form password
     password = forms.CharField(
         required=True,
         widget=forms.PasswordInput(),
+        label='Password:',
         error_messages={
             'required': 'Password must not be empty'
         },
@@ -54,9 +58,10 @@ class RegisterForm(forms.ModelForm):
             'one lowercase letter and one number. The length should be '
             'at least 8 characters.'
         ),
+        # strong password validator from def out class
         validators=[strong_password]
     )
-
+    # create for password 2 for confirmation of password
     password2 = forms.CharField(
         required=True,
         widget=forms.PasswordInput(),
@@ -66,6 +71,7 @@ class RegisterForm(forms.ModelForm):
         },
     )
 
+    # meta to call the inputs from django
     class Meta:
         model = User
         fields = [
@@ -81,7 +87,6 @@ class RegisterForm(forms.ModelForm):
             'last_name': 'Last Name:',
             'username': 'Username:',
             'email': 'E-mail:',
-            'password': 'Password:',
         }
 
         error_messages = {
@@ -90,16 +95,7 @@ class RegisterForm(forms.ModelForm):
             }
         }
 
-    def clean_first_name(self):
-        data = self.cleaned_data.get('first_name')
-        if 'Teste' in data:
-            raise ValidationError(
-                'The name %(inv)s is invalid!',
-                code='invalid',
-                params={'inv': '"Teste"'},
-            )
-        return data
-
+    # validation of the comparission of password and password 2
     def clean(self):
         cleaned_data = super().clean()
         password = cleaned_data.get('password')

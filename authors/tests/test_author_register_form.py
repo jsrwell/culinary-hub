@@ -37,3 +37,17 @@ class AuthorRegisterUnitTest(TestCase):
         form = RegisterForm()
         help_text = form[field].field.help_text
         self.assertEqual(help_text, expected_help_text)
+
+    # tests to labels in the inputs
+    @parameterized.expand([
+        ('first_name', 'First Name:'),
+        ('last_name', 'Last Name:'),
+        ('username', 'Username:'),
+        ('email', 'E-mail:'),
+        ('password', 'Password:'),
+        ('password2', 'Confirm your password:'),
+    ])
+    def test_fields_label_is_correct(self, field, expected_label):
+        form = RegisterForm()
+        label = form[field].field.label
+        self.assertEqual(label, expected_label)
