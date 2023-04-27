@@ -45,9 +45,33 @@ class RegisterForm(forms.ModelForm):
         add_placeholder(f_password, 'Type your password here')
         add_placeholder(f_password2, 'The password must be the same')
 
+    # rewrite the form first_name
+    first_name = forms.CharField(
+        error_messages={'required': 'Your first name must not be empty'},
+        label='First Name:',
+    )
+
+    # rewrite the form first_name
+    last_name = forms.CharField(
+        error_messages={'required': 'Your last name must not be empty'},
+        label='Last Name:',
+    )
+    # rewrite the form username
+    username = forms.CharField(
+        error_messages={'required': 'This field must not be empty'},
+        label='Username:',
+        help_text='Obrigatório. 150 caracteres ou menos. Letras, números e @/./+/-/_ apenas.',
+    )
+
+    # rewrite the form e-mail
+    email = forms.EmailField(
+        error_messages={'required': 'Your e-mail must not be empty'},
+        label='E-mail:',
+        help_text='The e-mail must be valid'
+    )
+
     # rewrite the form password
     password = forms.CharField(
-        required=True,
         widget=forms.PasswordInput(),
         label='Password:',
         error_messages={
@@ -63,12 +87,11 @@ class RegisterForm(forms.ModelForm):
     )
     # create for password 2 for confirmation of password
     password2 = forms.CharField(
-        required=True,
         widget=forms.PasswordInput(),
         label='Confirm your password:',
         error_messages={
-            'required': "The password don't match"
-        },
+            'required': 'The password must be the same and not empty'
+        }
     )
 
     # meta to call the inputs from django
@@ -81,19 +104,6 @@ class RegisterForm(forms.ModelForm):
             'email',
             'password',
         ]
-
-        labels = {
-            'first_name': 'First Name:',
-            'last_name': 'Last Name:',
-            'username': 'Username:',
-            'email': 'E-mail:',
-        }
-
-        error_messages = {
-            'username': {
-                'required': 'This field must not be empty',
-            }
-        }
 
     # validation of the comparission of password and password 2
     def clean(self):

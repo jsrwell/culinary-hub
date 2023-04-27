@@ -1,7 +1,9 @@
 # from django.test import TestCase
 from unittest import TestCase
+from django.test import TestCase as DjangoTestCase
 from authors.forms import RegisterForm
 from parameterized import parameterized
+from django.urls import reverse
 
 
 class AuthorRegisterUnitTest(TestCase):
@@ -26,7 +28,7 @@ class AuthorRegisterUnitTest(TestCase):
         ('username', (
             'Obrigatório. 150 caracteres ou menos. Letras, números e @/./+/-/_ apenas.'  # noqa E501
         )),
-        ('email', ''),
+        ('email', 'The e-mail must be valid'),
         ('password', (
             'Password must have at least one uppercase letter, '
             'one lowercase letter and one number. The length should be '
@@ -52,3 +54,31 @@ class AuthorRegisterUnitTest(TestCase):
         form = RegisterForm()
         label = form[field].field.label
         self.assertEqual(label, expected_label)
+
+
+class AuthorRegisterFormIntegrationTest(DjangoTestCase):
+    def setUp(self):
+        self.form_data = {
+            'first_name': 'Testfirstname',
+            'last_name': 'Testlastname',
+            'username': 'testusername',
+            'email': 'test@test.com',
+            'password': 't@st1ng',
+            'password2': 't@st1ng',
+        }
+        return super().setUp()
+
+    @parameterized.expand([
+        ('first_name', 'Your first name must not be empty'),
+        ('last_name', 'Your last name must not be empty'),
+        ('username', 'This field must not be empty'),
+        ('email', 'Your e-mail must not be empty'),
+        ('password', 'Password must not be empty'),
+        ('password2', 'The password must be the same and not empty'),
+    ])
+    def test_fields_cannot_be_empty(self, field, msg):
+        self.form_data[field] = ''
+        url = reverse('authors:create')
+        response = self.client.post(url, data=self.form_data, follow=True)
+        self.assertIn(msg, response.content.decode('utf-8'))
+        self.assertIn(msg, response.context['form'].errors.get(field))
