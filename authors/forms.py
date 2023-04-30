@@ -58,10 +58,16 @@ class RegisterForm(forms.ModelForm):
     )
     # rewrite the form username
     username = forms.CharField(
-        error_messages={'required': 'This field must not be empty'},
+        error_messages={'required': 'This field must not be empty',
+                        'min_length': 'Username must have at least 4 characters',  # noqa E501
+                        'max_length': 'Username must have at maximum 150 characters',  # noqa E501
+                        },
+        min_length=4, max_length=150,
         label='Username:',
-        help_text='Obrigatório. 150 caracteres ou menos. Letras, números e @/./+/-/_ apenas.',
-    )
+        help_text={
+            'Username must have letters, number or @.+-_ only.',
+            'The lenght should be between 4 and 150 characters.',
+        })
 
     # rewrite the form e-mail
     email = forms.EmailField(
