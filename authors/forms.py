@@ -19,11 +19,12 @@ def strong_password(password):
     regex = re.compile(r'^(?=.[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$')
 
     if not regex.match(password):
-        raise ValidationError(
+        raise ValidationError((
             'Password must have at least one uppercase letter, '
             'one lowercase letter and one number. The length should be '
             'at least 8 characters.',
-            code='Invalid',
+        ),
+            code='invalid',
         )
 
 
@@ -81,15 +82,15 @@ class RegisterForm(forms.ModelForm):
         widget=forms.PasswordInput(),
         label='Password:',
         error_messages={
-            'required': 'Password must not be empty'
+            'required': 'Password must not be empty',
         },
         help_text=(
             'Password must have at least one uppercase letter, '
             'one lowercase letter and one number. The length should be '
-            'at least 8 characters.'
+            'at least 8 characters.',
         ),
         # strong password validator from def out class
-        validators=[strong_password]
+        validators=[strong_password],
     )
     # create for password 2 for confirmation of password
     password2 = forms.CharField(
@@ -97,7 +98,7 @@ class RegisterForm(forms.ModelForm):
         label='Confirm your password:',
         error_messages={
             'required': 'The password must be the same and not empty'
-        }
+        },
     )
 
     # meta to call the inputs from django
@@ -114,10 +115,19 @@ class RegisterForm(forms.ModelForm):
     # validation of the comparission of password and password 2
     def clean(self):
         cleaned_data = super().clean()
+
         password = cleaned_data.get('password')
         password2 = cleaned_data.get('password2')
+
         if password != password2:
+            password_confirmation_error = ValidationError(
+                'password and confirmation password must be equal',
+                code='invalid',
+            ),
+
             raise ValidationError({
-                'password': 'The password dont match with the confirmation!',
-                'password2': 'The confirmation password dont match!',
+                'password': password_confirmation_error,
+                'password2': [
+                    password_confirmation_error,
+                ],
             })

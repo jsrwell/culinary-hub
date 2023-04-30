@@ -58,16 +58,16 @@ class AuthorRegisterUnitTest(TestCase):
 
 
 class AuthorRegisterFormIntegrationTest(DjangoTestCase):
-    def setUp(self):
+    def setUp(self, *args, **kwargs):
         self.form_data = {
             'first_name': 'Testfirstname',
             'last_name': 'Testlastname',
             'username': 'testusername',
             'email': 'test@test.com',
-            'password': 't@st1ng',
-            'password2': 't@st1ng',
+            'password': '1',
+            'password2': '1',
         }
-        return super().setUp()
+        return super().setUp(*args, **kwargs)
 
     @parameterized.expand([
         ('first_name', 'Your first name must not be empty'),
@@ -102,3 +102,43 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         msg = 'Username must have at maximum 150 characters'
         self.assertIn(msg, response.content.decode('utf-8'))
         self.assertIn(msg, response.context['form'].errors.get('username'))
+
+    def test_password_field_have_lower_upper_case_letters_and_numbers(self):
+        self.form_data['password'] = 'abc123'
+        url = reverse('authors:create')
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        msg = (
+            'Password must have at least one uppercase letter, '
+            'one lowercase letter and one number. The length should be '
+            'at least 8 characters.'
+        )
+
+        self.assertIn(msg, response.context['form'].errors.get('password'))
+        self.assertIn(msg, response.content.decode('utf-8'))
+
+        self.form_data['password'] = '@A123abc123'
+        url = reverse('authors:create')
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        self.assertNotIn(msg, response.context['form'].errors.get('password'))
+
+    def test_password_and_password_confirmation_are_equal(self):
+        self.form_data['password'] = '@A123abc123'
+        self.form_data['password2'] = '@A123abc1235'
+
+        url = reverse('authors:create')
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        msg = 'password and confirmation password must be equal'
+
+        self.assertIn(msg, response.context['form'].errors.get('password'))
+        self.assertIn(msg, response.content.decode('utf-8'))
+
+        self.form_data['password'] = '@A123abc123'
+        self.form_data['password2'] = '@A123abc123'
+
+        url = reverse('authors:create')
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        self.assertNotIn(msg, response.content.decode('utf-8'))
