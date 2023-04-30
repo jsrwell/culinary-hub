@@ -1,5 +1,6 @@
-from django import forms
 import re
+
+from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
@@ -12,96 +13,77 @@ def add_attr(field, attr_name, attr_new_val):
 def add_placeholder(field, placeholder_val):
     add_attr(field, 'placeholder', placeholder_val)
 
-# função validadora de senha forte
-
 
 def strong_password(password):
-    regex = re.compile(r'^(?=.[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$')
+    regex = re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$')
 
     if not regex.match(password):
         raise ValidationError((
             'Password must have at least one uppercase letter, '
             'one lowercase letter and one number. The length should be '
-            'at least 8 characters.',
+            'at least 8 characters.'
         ),
-            code='invalid',
+            code='invalid'
         )
 
 
 class RegisterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # fields variebles
-        f_first_name = self.fields['first_name']
-        f_last_name = self.fields['last_name']
-        f_username = self.fields['username']
-        f_email = self.fields['email']
-        f_password = self.fields['password']
-        f_password2 = self.fields['password2']
-        # placeholders input
-        add_placeholder(f_first_name, 'Ex.: Well')
-        add_placeholder(f_last_name, 'Ex.: Jackson')
-        add_placeholder(f_username, 'Ex.: yourusername0945')
-        add_placeholder(f_email, 'Ex.: youremail@typed.here')
-        add_placeholder(f_password, 'Type your password here')
-        add_placeholder(f_password2, 'The password must be the same')
+        add_placeholder(self.fields['username'], 'Your username')
+        add_placeholder(self.fields['email'], 'Your e-mail')
+        add_placeholder(self.fields['first_name'], 'Ex.: John')
+        add_placeholder(self.fields['last_name'], 'Ex.: Doe')
+        add_placeholder(self.fields['password'], 'Type your password')
+        add_placeholder(self.fields['password2'], 'Repeat your password')
 
-    # rewrite the form first_name
-    first_name = forms.CharField(
-        error_messages={'required': 'Your first name must not be empty'},
-        label='First Name:',
-    )
-
-    # rewrite the form first_name
-    last_name = forms.CharField(
-        error_messages={'required': 'Your last name must not be empty'},
-        label='Last Name:',
-    )
-    # rewrite the form username
     username = forms.CharField(
-        error_messages={'required': 'This field must not be empty',
-                        'min_length': 'Username must have at least 4 characters',  # noqa E501
-                        'max_length': 'Username must have at maximum 150 characters',  # noqa E501
-                        },
+        label='Username',
+        help_text=(
+            'Username must have letters, numbers or one of those @.+-_. '
+            'The length should be between 4 and 150 characters.'
+        ),
+        error_messages={
+            'required': 'This field must not be empty',
+            'min_length': 'Username must have at least 4 characters',
+            'max_length': 'Username must have less than 150 characters',
+        },
         min_length=4, max_length=150,
-        label='Username:',
-        help_text={
-            'Username must have letters, number or @.+-_ only.',
-            'The lenght should be between 4 and 150 characters.',
-        })
-
-    # rewrite the form e-mail
-    email = forms.EmailField(
-        error_messages={'required': 'Your e-mail must not be empty'},
-        label='E-mail:',
-        help_text='The e-mail must be valid'
     )
-
-    # rewrite the form password
+    first_name = forms.CharField(
+        error_messages={'required': 'Write your first name'},
+        label='First name'
+    )
+    last_name = forms.CharField(
+        error_messages={'required': 'Write your last name'},
+        label='Last name'
+    )
+    email = forms.EmailField(
+        error_messages={'required': 'E-mail is required'},
+        label='E-mail',
+        help_text='The e-mail must be valid.',
+    )
     password = forms.CharField(
         widget=forms.PasswordInput(),
-        label='Password:',
         error_messages={
-            'required': 'Password must not be empty',
+            'required': 'Password must not be empty'
         },
         help_text=(
             'Password must have at least one uppercase letter, '
             'one lowercase letter and one number. The length should be '
-            'at least 8 characters.',
+            'at least 8 characters.'
         ),
-        # strong password validator from def out class
         validators=[strong_password],
+        label='Password'
     )
-    # create for password 2 for confirmation of password
     password2 = forms.CharField(
         widget=forms.PasswordInput(),
-        label='Confirm your password:',
+        label='Password2',
         error_messages={
-            'required': 'The password must be the same and not empty'
+            'required': 'Please, repeat your password'
         },
     )
 
-    # meta to call the inputs from django
     class Meta:
         model = User
         fields = [
@@ -112,7 +94,6 @@ class RegisterForm(forms.ModelForm):
             'password',
         ]
 
-    # validation of the comparission of password and password 2
     def clean(self):
         cleaned_data = super().clean()
 
@@ -121,10 +102,9 @@ class RegisterForm(forms.ModelForm):
 
         if password != password2:
             password_confirmation_error = ValidationError(
-                'password and confirmation password must be equal',
-                code='invalid',
-            ),
-
+                'Password and password2 must be equal',
+                code='invalid'
+            )
             raise ValidationError({
                 'password': password_confirmation_error,
                 'password2': [
