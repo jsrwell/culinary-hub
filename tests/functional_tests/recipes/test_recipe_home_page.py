@@ -16,3 +16,10 @@ class RecipeHomePageFunctionalTest(RecipeBaseFunctionalTest):
         browser.get(self.live_server_url)
         body = browser.find_element(By.TAG_NAME, 'body')
         self.assertIn('Well Jackson', body.text)
+
+    def test_recipes_appear(self):
+        self.make_recipe()
+        browser = self.browser
+        browser.get(self.live_server_url)
+        body = browser.find_element(By.TAG_NAME, 'body')
+        self.assertIn('Recipe Title Test', body.text)
