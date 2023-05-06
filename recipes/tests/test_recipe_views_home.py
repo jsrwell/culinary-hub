@@ -44,9 +44,7 @@ class RecipeViewsHomeTest(RecipeTestBase):
 
     @patch('recipes.views.PER_PAGE', 3)
     def test_recipe_home_is_paginated(self):
-        for i in range(8):
-            kwargs = {'author_data': {'username': f'u{i}'}, 'slug': f'r{i}'}
-            self.make_recipe(**kwargs)
+        self.make_recipe_in_batch(8)
 
         response = self.client.get(reverse('recipes:home'))
         recipes = response.context['recipes']
@@ -59,9 +57,8 @@ class RecipeViewsHomeTest(RecipeTestBase):
 
     @patch('recipes.views.PER_PAGE', 3)
     def test_invalid_page_query_uses_page_one(self):
-        for i in range(8):
-            kwargs = {'author_data': {'username': f'u{i}'}, 'slug': f'r{i}'}
-            self.make_recipe(**kwargs)
+        self.make_recipe_in_batch(8)
+
         # test paginator returns page 1
         response = self.client.get(reverse('recipes:home') + '?page=1TEST')
         paginator = response.context['recipes'].number
