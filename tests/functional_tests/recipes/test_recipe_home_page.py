@@ -1,8 +1,7 @@
-from typing import KeysView
-from selenium.webdriver.common.by import By
 import pytest
 from tests.functional_tests.recipes.base import RecipeBaseFunctionalTest
 from unittest.mock import patch
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
 
@@ -51,4 +50,23 @@ class RecipeHomePageFunctionalTest(RecipeBaseFunctionalTest):
             self.browser.find_element(
                 By.CLASS_NAME, 'main-content-list'
             ).text
+        )
+
+    @patch('recipes.views.PER_PAGE', new=2)
+    def test_recipe_home_page_pagination(self):
+        self.make_recipe_in_batch()
+
+        # User open the browser
+        self.browser.get(self.live_server_url)
+
+        # The user see the pagination number 2 and click
+        page2 = self.browser.find_element(
+            By.XPATH,
+            '//a[@aria-label="Go to Page 2"]')
+        page2.click()
+
+        # The user go to the next page and see 2 recipes
+        self.assertEqual(
+            len(self.browser.find_elements(By.CLASS_NAME, 'recipe')),
+            2
         )

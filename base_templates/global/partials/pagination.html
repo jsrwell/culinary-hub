@@ -1,9 +1,13 @@
 {% if recipes.has_other_pages %}
-    <div class="container pagination">
+    <nav role="navigation" aria-label="Main Pagination" class="container pagination">
         <div class="pagination-content">
 
             {% if pagination_range.first_out_of_range %}
-                <a class="page-link page-item" href="?page=1{{ additional_url_query }}">
+                <a
+                class="page-link page-item"
+                href="?page=1{{ additional_url_query }}"
+                aria-label="Go to Page 1"
+                >
                     1
                 </a>
                 <span class="page-item">
@@ -13,11 +17,19 @@
 
             {% for page in pagination_range.pagination %}
                 {% if pagination_range.current_page == page %}
-                    <div class="page-item page-current">
+                    <div
+                    aria-current="true"
+                    class="page-item page-current"
+                    arial-label="Current Page {{ page }}"
+                    >
                         {{ page }}
                     </div>
                 {% else %}
-                    <a class="page-link page-item" href="?page={{ page }}{{ additional_url_query }}">
+                    <a
+                    class="page-link page-item"
+                    href="?page={{ page }}{{ additional_url_query }}"
+                    aria-label="Go to Page {{ page }}"
+                    >
                         {{ page }}
                     </a>
                 {% endif %}
@@ -27,11 +39,15 @@
                 <span class="page-item">
                     ...
                 </span>
-                <a class="page-link page-item" href="?page={{ pagination_range.total_pages }}{{ additional_url_query }}">
+                <a
+                class="page-link page-item"
+                href="?page={{ pagination_range.total_pages }}{{ additional_url_query }}"
+                aria-label="Go to page {{ pagination_range.total_pages }}"
+                >
                     {{ pagination_range.total_pages }}
                 </a>
             {% endif %}
 
         </div>
-    </div>
+    </nav>
 {% endif %}
