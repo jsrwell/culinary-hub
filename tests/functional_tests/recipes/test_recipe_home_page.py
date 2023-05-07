@@ -25,6 +25,8 @@ class RecipeHomePageFunctionalTest(RecipeBaseFunctionalTest):
         body = self.browser.find_element(By.TAG_NAME, 'body')
         self.assertIn('Recipe Title Test 3', body.text)
 
+    # Models tests for PLACEHOLDERS visible
+
     @patch('recipes.views.PER_PAGE', new=2)
     def test_recipe_search_input_can_find_correct_recipes(self):
         recipes = self.make_recipe_in_batch()
@@ -51,6 +53,8 @@ class RecipeHomePageFunctionalTest(RecipeBaseFunctionalTest):
                 By.CLASS_NAME, 'main-content-list'
             ).text
         )
+
+    # Model tests for ARIA-LABELS (acessibility)
 
     @patch('recipes.views.PER_PAGE', new=2)
     def test_recipe_home_page_pagination(self):
