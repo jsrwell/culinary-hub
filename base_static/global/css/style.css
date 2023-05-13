@@ -365,7 +365,7 @@ h6 {
     display: inline;
   }
   
-  .plaintext-button {
+.plaintext-button {
     display: inline;
     border: none;
     background: none;
@@ -373,6 +373,22 @@ h6 {
     color: var(--color-primary);
     font-size: 1.6rem;
   }
+
+  .authors-dashboard-container {
+    max-width: 64rem;
+    text-align: left;
+    padding: var(--spacing-gutter-medium);
+    margin: 0 auto;
+  }
+
+  .authors-dashboard-container h3,
+  .authors-dashboard-container p,
+  .authors-dashboard-container ul {
+    list-style-type: none;
+    margin: 1rem;
+  }
+
+
 
 /* Messages */
 .message {
