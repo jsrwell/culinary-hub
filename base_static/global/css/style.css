@@ -410,6 +410,13 @@ a {
     margin: 1rem;
 }
 
+:root {
+    --button-width: 13rem;
+    --button-height: 3.5rem;
+    --button-icon-size: 1.8rem;
+    --button-icon-spacing: 0.3rem;
+}
+
 /* Special Buttons */
 .menu-recipes-buttons {
     display: flex;
@@ -418,23 +425,24 @@ a {
     padding: 0;
     margin: 1rem;
     list-style: none;
-  }
-  
-  .menu-recipes-buttons li {
-    margin: 1.5rem;
+}
+
+.menu-recipes-buttons {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
   }
   
   .button-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+    margin: 1.5rem;
+    text-align: center;
   }
-  
-  .button-container button {
+
+.button-container button {
     padding: 0.35rem;
-    width: 13rem;
-    height: 3.5rem;
+    width: var(--button-width);
+    height: var(--button-height);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -443,81 +451,81 @@ a {
     box-shadow: 0.1rem 0.1rem 0.3rem rgba(0, 0, 0, 0.15);
     transition: 600ms;
     position: relative;
-  }
-  
-  .button-container button:hover {
+}
+
+.button-container button:hover {
     box-shadow: 0.3rem 0.3rem 0.3rem rgba(0, 0, 0, 0.3);
-  }
-  
-  .button-container button span {
+}
+
+.button-container button span {
     transition: 600ms;
-  }
-  
-  .button-container button .text {
-    transform: translateX(2.5rem);
+}
+
+.button-container button .text {
+    transform: translateX(calc(var(--button-width) / 4));
     color: white;
     font-weight: bold;
-  }
-  
-  .button-container button .icon {
+}
+
+.button-container button .icon {
     position: absolute;
-    right: 0.3rem;
+    right: var(--button-icon-spacing);
     border-left: 0.1rem solid #fff;
-    height: 2.8rem;
-    width: 2.8rem;
+    height: calc(var(--button-icon-size) * 1.6);
+    width: calc(var(--button-icon-size) * 1.6);
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  
-  .button-container button svg {
-    width: 1.8rem;
+}
+
+.button-container button svg {
+    width: var(--button-icon-size);
     fill: #eee;
-  }
-  
-  .button-container button:hover .text {
+}
+
+.button-container button:hover .text {
     color: transparent;
-  }
-  
-  .button-container button:hover .icon {
-    width: 13rem;
+}
+
+.button-container button:hover .icon {
+    width: var(--button-width);
     border-left: none;
     border-color: white;
-    transform: translateX(2.5rem);
-  }
-  
-  .button-container button:focus {
-    outline: none;
-  }
-  
-  .button-container button:active .icon svg {
-    transform: scale(0.8);
-  }
-  
-  /* Button My Recipes */
-  .button-container button.myrecipes-effects {
-    background: linear-gradient(to bottom right, #FFA500, #ec8a00);
-    transform: translateX(1.25rem);
-  }
-  
-  .button-container button.myrecipes-effects .text {
-    transform: translateX(1.05rem);
-  }
+    transform: translateX(calc(var(--button-icon-size)/2));
+}
 
-  /* Button Add Recipes */
-  .button-container button.addrecipes-effects {
+.button-container button:focus {
+    outline: none;
+}
+
+.button-container button:active .icon svg {
+    transform: scale(0.8);
+}
+
+
+/* Button My Recipes */
+.button-container button.myrecipes-effects {
+    background: linear-gradient(to bottom right, #FFA500, #ec8a00);
+}
+
+.button-container button.myrecipes-effects .text {
+    transform: translateX(calc(var(--button-width) / 12));
+}
+
+/* Button Add Recipes */
+.button-container button.addrecipes-effects {
     background: linear-gradient(to bottom right, #FFD54F, #FFB300);
-    transform: translateX(1.25rem);
-  }
-  
-  .button-container button.addrecipes-effects .text {
-    transform: translateX(1.05rem);
-  }
-  
-  /* Button Logout */
-  .button-container button.logout-effects {
+}
+
+.button-container button.addrecipes-effects .text {
+    transform: translateX(calc(var(--button-width) / 17));
+}
+
+/* Button Logout */
+.button-container button.logout-effects {
     background: linear-gradient(to bottom right, #616161, #03A9F4);
-  }
+}
+
 
 /* Messages */
 .message {
