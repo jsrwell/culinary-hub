@@ -2,7 +2,7 @@
     <div class="recipe recipe-list-item">
         <div class="recipe-cover">
             {% if is_home_page %}
-            <a href="{% url 'recipes:recipe' recipe.id %}">
+            <a href="{{ recipe.get_absolute_url }}">
                 <img src="{{ recipe.cover.url}}" alt="Temp">
             </a>
             {% else %}
@@ -67,7 +67,7 @@
 
         {% if is_home_page %}
         <footer class="recipe-footer">
-            <a href="{% url 'recipes:recipe' recipe.id %}">
+            <a href="{{ recipe.get_absolute_url }}">
                 <i class="fas fa-eye"></i>
                 <span>ver mais...</span>
             </a>
