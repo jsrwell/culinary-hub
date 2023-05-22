@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from authors.forms.recipe_form import AuthorRecipeForm
 
 from recipes.models import Recipe
-from .forms import LoginForm, RegisterForm
+from authors.forms import LoginForm, RegisterForm
 from django.http import Http404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
