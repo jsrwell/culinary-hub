@@ -1,2 +1,4 @@
 # flake8: noqa
-from . import all
+from .all import *
+from .dashboard_recipe import *
+# TODO: AULA 199
