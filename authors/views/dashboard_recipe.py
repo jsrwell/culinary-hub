@@ -5,8 +5,14 @@ from django.urls import reverse
 from django.views import View
 from authors.forms.recipe_form import AuthorRecipeForm
 from recipes.models import Recipe
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 
+@method_decorator(
+    login_required(login_url='authors:login', redirect_field_name='next'),
+    name='dispatch'
+)
 class DashboardRecipe(View):
     def get_recipe(self, id=None):
         recipe = None
