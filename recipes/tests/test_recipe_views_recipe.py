@@ -5,8 +5,8 @@ from recipes import views
 
 class RecipeViewsRecipeTest(RecipeTestBase):
     def test_recipe_details_view_function_is_correct(self):
-        view = resolve(reverse('recipes:recipe', kwargs={'id': 1}))
-        self.assertIs(view.func, views.recipe)
+        view = resolve(reverse('recipes:recipe', kwargs={'pk': 1}))
+        self.assertIs(view.func.view_class, views.RecipeDetail)
 
     def test_recipe_details_view_returns_status_code_200_OK(self):
         self.make_recipe()
