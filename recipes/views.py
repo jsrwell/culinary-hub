@@ -1,7 +1,6 @@
 import os
 from django.db.models import Q
 from django.http import Http404
-from django.shortcuts import get_object_or_404, render
 from django.views.generic import DetailView, ListView
 from .models import Recipe
 from utils.pagination import make_pagination
@@ -96,6 +95,11 @@ class RecipeDetail(DetailView):
     model = Recipe
     context_object_name = 'recipe'
     template_name = 'recipes/pages/recipe-view.html'
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+        qs = qs.filter(is_published=True)
+        return qs
 
     def get_context_data(self, *args, **kwargs):
         ctx = super().get_context_data(*args, **kwargs)

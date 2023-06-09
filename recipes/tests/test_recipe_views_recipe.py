@@ -12,12 +12,12 @@ class RecipeViewsRecipeTest(RecipeTestBase):
         self.make_recipe()
         # Need a recipe for this test
         response = self.client.get(
-            reverse('recipes:recipe', kwargs={'id': 1}))
+            reverse('recipes:recipe', kwargs={'pk': 1}))
         self.assertEqual(response.status_code, 200)
 
     def test_recipe_details_view_returns_404_if_no_recipes_found(self):
         response = self.client.get(
-            reverse('recipes:recipe', kwargs={'id': 9999}))
+            reverse('recipes:recipe', kwargs={'pk': 9999}))
         self.assertEqual(response.status_code, 404)
 
     def test_recipe_details_template_loads_recipes(self):
@@ -34,6 +34,6 @@ class RecipeViewsRecipeTest(RecipeTestBase):
         """Test if the recipes with is_published=False is not loaded"""
         # Need a recipe for this test
         response = self.client.get(reverse(
-            'recipes:recipe', kwargs={"id": 1}
+            'recipes:recipe', kwargs={"pk": 1}
         ))
         self.assertEqual(response.status_code, 404)
