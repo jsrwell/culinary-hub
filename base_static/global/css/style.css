@@ -567,6 +567,10 @@ a {
     color: var(--color-warning-dark);
 }
 
+.hidden-text {
+    display: none;
+  }
+
 @media (max-width: 600px) {
 
     .main-content-list,
