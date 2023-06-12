@@ -4,7 +4,7 @@
   </button>
   
   <div class="menu-container menu-hidden">
-    <button class="button-show-menu button-show-menu-visible">
+    <button class="button-close-menu button-close-menu-visible">
       <i class="fas fa-times-circle"></i>
       <span class="hidden-text">Close Menu</span>
     </button>
@@ -14,7 +14,7 @@
         <a href="{% url 'recipes:home' %}">Home</a>
   
         {% if user.is_authenticated %}
-          <a href="{% url 'authors:dashboard_recipe_new' %}">New recipe</a>
+          <a href="{% url 'authors:dashboard_recipe_new' %}">New Recipe</a>
           <a href="{% url 'authors:dashboard' %}">Dashboard</a>
           <a href="{% url 'authors:logout' %}">Logout</a>
         {% else %}
