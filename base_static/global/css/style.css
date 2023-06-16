@@ -521,6 +521,11 @@ a {
     transform: translateX(calc(var(--button-width) / 17));
 }
 
+/* Button Profile */
+.button-container button.profile-effects {
+    background: linear-gradient(to bottom right, #057c58, #2ff8b5);
+}
+
 /* Button Logout */
 .button-container button.logout-effects {
     background: linear-gradient(to bottom right, #616161, #03A9F4);
