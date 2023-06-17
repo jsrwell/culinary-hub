@@ -47,6 +47,8 @@ def make_pagination_range(
         'last_out_of_range': stop < total_pages,
     }
 
+# Custom Pagination
+
 
 def make_pagination(request, queryset, per_page=9, paginator_size=5):
     try:
